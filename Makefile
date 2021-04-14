@@ -9,15 +9,15 @@ EXE     = $(notdir $(SRC:%.c=%))
 
 CC          = gcc
 LD          = gcc
-CCFLAGS     = -Wall -I$(INC_DIR)
+CCFLAGS     = -std=c99 -Wall -I$(INC_DIR)
 LDFLAGS     =
 DEPLIBS     =
 
 all: $(EXE)
-	./ezQueue.exe
 
 $(EXE) : % : $(INC_DIR)/%.h $(SRC_DIR)/%.c $(TEST_DIR)/%.c
 	$(CC) $(CCFLAGS) $(LDFLAGS) -o $@ $(SRC_DIR)/$@.c $(TEST_DIR)/$@.c
+	./$@
 
 clean:
 	rm -f $(EXE)

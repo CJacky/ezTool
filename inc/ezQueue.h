@@ -5,6 +5,13 @@
  * See the LICENSE file for details.
  */
 
+#ifndef _EZTOOL_H_QUEUE_
+#define _EZTOOL_H_QUEUE_
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -14,11 +21,6 @@ struct ezQueue {
     uint32_t    write_offset;
     uint32_t    buf_size;
     uint32_t    free_size;
-    uint32_t    flag;
-};
-
-enum ezQueueFlag {
-    E_STATIC_BUF = 0x1,
 };
 
 int ezQueueCreate(struct ezQueue* queue, void* buf, uint32_t buf_size);
@@ -28,3 +30,8 @@ int ezQueueReset(struct ezQueue* queue);
 int ezQueueWrite(struct ezQueue* queue, void* data, uint32_t data_size);
 int ezQueueRead(struct ezQueue* queue, void* data, uint32_t data_size);
 int ezQueueSize(struct ezQueue* queue);
+
+#ifdef  __cplusplus
+}
+#endif
+#endif

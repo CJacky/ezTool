@@ -15,19 +15,11 @@
 #include "ezQueue.h"
 
 int ezQueueCreate(struct ezQueue* queue, void* buf, uint32_t buf_size) {
-    if (queue == NULL) {
+    if (queue == NULL || buf == NULL || buf_size == 0) {
         return -EINVAL;
     }
     memset(queue, 0, sizeof(struct ezQueue));
-    if (buf == NULL) {
-        queue->buffer = malloc(buf_size);
-        if (queue->buffer == NULL) {
-            return -ENOMEM;
-        }
-    } else {
-        queue->buffer = buf;
-        queue->flag = E_STATIC_BUF;
-    }
+    queue->buffer = buf;
     queue->buf_size = buf_size;
     queue->free_size = buf_size;
     return 0;
@@ -36,9 +28,6 @@ int ezQueueCreate(struct ezQueue* queue, void* buf, uint32_t buf_size) {
 int ezQueueDelete(struct ezQueue* queue) {
     if (queue == NULL) {
         return -EINVAL;
-    }
-    if (queue->flag & E_STATIC_BUF) {
-        free(queue->buffer);
     }
     memset(queue, 0, sizeof(struct ezQueue));
     return 0;
@@ -55,7 +44,7 @@ int ezQueueReset(struct ezQueue* queue) {
 }
 
 int ezQueueWrite(struct ezQueue* queue, void* data, uint32_t data_size) {
-    if (queue == NULL) {
+    if (queue == NULL || data == NULL || data_size == 0) {
         return -EINVAL;
     }
     if (queue->free_size < data_size) {
@@ -77,7 +66,7 @@ int ezQueueWrite(struct ezQueue* queue, void* data, uint32_t data_size) {
 }
 
 int ezQueueRead(struct ezQueue* queue, void* data, uint32_t data_size) {
-    if (queue == NULL) {
+    if (queue == NULL || data == NULL || data_size == 0) {
         return -EINVAL;
     }
     if (queue->buf_size - queue->free_size < data_size) {

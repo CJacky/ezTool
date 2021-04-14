@@ -14,13 +14,14 @@
 
 int main(int argc, char** argv) {
     struct ezQueue q;
+    char buf[29];
     int i, n;
 
-    ezQueueCreate(&q, NULL, 29);
+    ezQueueCreate(&q, buf, sizeof(buf));
 
     for (i = 0; i < 10; ++i) {
         if (ezQueueWrite(&q, &i, sizeof(int))) {
-            printf("write %d fail\n", i);
+            printf("w %d fail\n", i);
         }
     }
     for (i = 0; i < 20; ++i) {
